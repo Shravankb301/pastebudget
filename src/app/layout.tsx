@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { VercelAnalytics } from "@/components/vercel-analytics";
 
 import "./globals.css";
 
@@ -81,6 +82,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} scroll-smooth antialiased`}>
       <body>
         <TooltipProvider>{children}</TooltipProvider>
+        <VercelAnalytics />
       </body>
     </html>
   );

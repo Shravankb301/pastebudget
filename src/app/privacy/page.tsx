@@ -54,7 +54,10 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-semibold text-stone-950">Analytics</h2>
             <p className="mt-3 leading-7">
-              The interface exposes analytics-ready events for actions such as loading the sample or creating chunks. Those events are restricted to coarse counts and settings. They are explicitly designed not to include prompt text, file names, or file contents. No analytics service is enabled by default.
+              PasteBudget uses Vercel Web Analytics for anonymous, aggregate page traffic. It does not use tracking cookies. Query strings and fragments are removed before a page view is sent. Analytics can include the public page path, referrer, coarse location, device type, browser, and operating system.
+            </p>
+            <p className="mt-3 leading-7">
+              Prompt text, file names, file contents, token counts, and chunk contents are never included in page-view analytics. The interface also keeps its coarse action events local unless a separate analytics integration is explicitly enabled.
             </p>
           </section>
           <section>
