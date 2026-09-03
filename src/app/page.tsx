@@ -29,9 +29,9 @@ import { formatTokens, MODEL_PRESETS } from "@/lib/models";
 
 const faq = [
   {
-    question: "Does PromptFit upload or save my prompt?",
+    question: "Does PasteBudget upload or save my prompt?",
     answer:
-      "No. Token counting, file reading, and chunking happen in your browser. PromptFit does not send prompt text to a server, write it to local storage, or include it in analytics events.",
+      "No. Token counting, file reading, and chunking happen in your browser. PasteBudget does not send prompt text to a server, write it to local storage, or include it in analytics events.",
   },
   {
     question: "Why reserve tokens for the answer?",
@@ -41,12 +41,12 @@ const faq = [
   {
     question: "Are the token counts exact for every model?",
     answer:
-      "PromptFit uses the o200k tokenizer used by modern OpenAI models. Other providers do not publish an equivalent browser tokenizer, so their presets use the exact o200k count plus a clearly labeled 12% safety margin. Use a provider's own API counter when billing-grade precision is required.",
+      "PasteBudget uses the o200k tokenizer used by modern OpenAI models. Other providers do not publish an equivalent browser tokenizer, so their presets use the exact o200k count plus a clearly labeled 12% safety margin. Use a provider's own API counter when billing-grade precision is required.",
   },
   {
     question: "Do API context limits match ChatGPT, Claude, or Gemini subscriptions?",
     answer:
-      "Not necessarily. Product plans can apply different limits, hidden instructions, attachments, and automatic compaction. PromptFit labels its built-in limits as API presets and lets you enter a custom limit when you know the number available to your chat or tool.",
+      "Not necessarily. Product plans can apply different limits, hidden instructions, attachments, and automatic compaction. PasteBudget labels its built-in limits as API presets and lets you enter a custom limit when you know the number available to your chat or tool.",
   },
   {
     question: "What does chunk overlap do?",
@@ -81,11 +81,11 @@ export default function Home() {
     <main>
       <header className="sticky top-0 z-40 border-b border-stone-200/80 bg-[#f7f5f1]/95 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="group flex items-center gap-2.5" aria-label="PromptFit home">
+          <Link href="/" className="group flex items-center gap-2.5" aria-label="PasteBudget home">
             <span className="flex size-8 items-center justify-center rounded-md bg-stone-950 text-white shadow-sm transition-transform group-hover:-rotate-2">
               <Brackets className="size-4" aria-hidden="true" />
             </span>
-            <span className="text-base font-semibold tracking-tight">PromptFit</span>
+            <span className="text-base font-semibold tracking-tight">PasteBudget</span>
           </Link>
           <nav className="flex items-center gap-1" aria-label="Primary navigation">
             <Button variant="ghost" size="sm" asChild className="hidden text-stone-600 sm:inline-flex">
@@ -129,7 +129,7 @@ export default function Home() {
 
           <div className="grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-stone-300 bg-stone-300 shadow-[0_16px_50px_rgba(28,25,23,0.08)]">
             <div className="col-span-3 bg-stone-950 px-5 py-4 text-white">
-              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-stone-400">What PromptFit counts</p>
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-stone-400">What PasteBudget counts</p>
               <p className="mt-2 text-sm leading-6 text-stone-200">
                 New input + attached text + existing chat + response reserve
               </p>
@@ -161,7 +161,7 @@ export default function Home() {
                 One useful verdict, with the caveats visible.
               </h2>
               <p className="mt-4 max-w-xl leading-7 text-stone-600">
-                A raw context-window number is not your real input budget. PromptFit subtracts the space you need for an answer and anything already in the conversation before deciding whether new material fits.
+                A raw context-window number is not your real input budget. PasteBudget subtracts the space you need for an answer and anything already in the conversation before deciding whether new material fits.
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
@@ -292,7 +292,7 @@ export default function Home() {
             </p>
             <h2 id="faq-heading" className="text-3xl font-semibold tracking-tight">Plain answers.</h2>
             <p className="mt-4 max-w-sm text-sm leading-6 text-stone-600">
-              PromptFit is designed to be conservative about both context and privacy.
+              PasteBudget is designed to be conservative about both context and privacy.
             </p>
           </div>
           <Accordion type="single" collapsible className="border-t border-stone-300">
@@ -317,7 +317,7 @@ export default function Home() {
               <span className="flex size-8 items-center justify-center rounded-md border border-white/20 bg-white/10">
                 <Brackets className="size-4" />
               </span>
-              <span className="font-semibold">PromptFit</span>
+              <span className="font-semibold">PasteBudget</span>
             </div>
             <p className="mt-4 max-w-lg text-sm leading-6 text-stone-400">
               A small, private utility for making better use of finite context. No account, no backend, no prompt collection.

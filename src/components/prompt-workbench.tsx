@@ -395,7 +395,7 @@ export function PromptWorkbench() {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = "promptfit-chunks.md";
+    anchor.download = "pastebudget-chunks.md";
     anchor.click();
     URL.revokeObjectURL(url);
     trackEvent("chunks_downloaded", { count: chunks.length });
@@ -664,7 +664,7 @@ export function PromptWorkbench() {
                   aria-label="Tokens reserved for model response"
                 />
                 <p className="text-xs leading-5 text-stone-500">
-                  PromptFit subtracts this from the window instead of pretending the entire context is available for input.
+                  PasteBudget subtracts this from the window instead of pretending the entire context is available for input.
                 </p>
               </div>
 
@@ -790,7 +790,7 @@ export function PromptWorkbench() {
 
               {selectedPreset.tokenizer === "estimated" && !isCustom && (
                 <p className="rounded-md border border-indigo-100 bg-indigo-50/70 px-3 py-2 text-xs leading-5 text-indigo-900">
-                  This model does not publish a browser tokenizer. PromptFit applies a 12% safety margin to the exact o200k reference count.
+                  This model does not publish a browser tokenizer. PasteBudget applies a 12% safety margin to the exact o200k reference count.
                 </p>
               )}
               {countState.error && (

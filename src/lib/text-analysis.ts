@@ -35,7 +35,7 @@ export function buildFitReport({
   const formatter = new Intl.NumberFormat("en-US");
 
   return [
-    `PromptFit report — ${status}`,
+    `PasteBudget report — ${status}`,
     `Model preset: ${modelName}`,
     `Prompt: ${formatter.format(tokenCount)} tokens`,
     `Available input budget: ${formatter.format(availableTokens)} tokens`,
@@ -44,7 +44,6 @@ export function buildFitReport({
     remaining >= 0
       ? `Headroom: ${formatter.format(remaining)} tokens`
       : `Over by: ${formatter.format(Math.abs(remaining))} tokens`,
-    "Measured locally at PromptFit.",
+    "Measured locally at PasteBudget.",
   ].join("\n");
 }
-

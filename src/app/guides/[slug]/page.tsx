@@ -41,11 +41,11 @@ export default async function GuidePage({ params }: GuidePageProps) {
     <main className="min-h-screen bg-[#f7f5f1]">
       <header className="border-b border-stone-200">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-2.5" aria-label="PromptFit home">
+          <Link href="/" className="flex items-center gap-2.5" aria-label="PasteBudget home">
             <span className="flex size-8 items-center justify-center rounded-md bg-stone-950 text-white">
               <Brackets className="size-4" />
             </span>
-            <span className="font-semibold tracking-tight">PromptFit</span>
+            <span className="font-semibold tracking-tight">PasteBudget</span>
           </Link>
           <Button size="sm" asChild className="bg-stone-950 text-white hover:bg-stone-800">
             <Link href="/#tool">Check a prompt</Link>
@@ -100,11 +100,11 @@ export default async function GuidePage({ params }: GuidePageProps) {
           </p>
           <h2 className="mt-3 text-2xl font-semibold tracking-tight">Measure the actual text.</h2>
           <p className="mt-3 max-w-xl text-sm leading-6 text-stone-300">
-            PromptFit counts locally, keeps space for the answer, and splits long material without uploading it.
+            PasteBudget counts locally, keeps space for the answer, and splits long material without uploading it.
           </p>
           <Button asChild className="mt-6 bg-white text-stone-950 hover:bg-stone-200">
             <Link href="/#tool">
-              Open PromptFit
+              Open PasteBudget
               <ArrowRight className="size-4" />
             </Link>
           </Button>
@@ -113,4 +113,3 @@ export default async function GuidePage({ params }: GuidePageProps) {
     </main>
   );
 }
-

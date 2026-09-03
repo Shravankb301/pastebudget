@@ -14,7 +14,7 @@ export function trackEvent(
 
   // Never include prompt text, file names, or file contents in analytics.
   window.dispatchEvent(
-    new CustomEvent("promptfit:analytics", {
+    new CustomEvent("pastebudget:analytics", {
       detail: { name, properties },
     }),
   );
@@ -27,4 +27,3 @@ export function trackEvent(
 
   plausible?.(name, { props: properties });
 }
-

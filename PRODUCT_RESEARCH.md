@@ -1,4 +1,4 @@
-# PromptFit product research
+# PasteBudget product research
 
 Research date: September 2, 2026.
 
@@ -6,9 +6,9 @@ Research date: September 2, 2026.
 
 - A March 2026 Claude discussion with roughly 2,000 votes explicitly complained that there was no real-time token counter and no clear way to plan usage: [Reddit discussion](https://www.reddit.com/r/ClaudeAI/comments/1s5nxwe/an_open_letter_to_anthropic_want_to_free_up/).
 - A January 2026 thread about lost context and compaction had a highly upvoted request for “a token counter that shows me how much context length I have left”: [Reddit discussion](https://www.reddit.com/r/ClaudeAI/comments/1qonm6z/hey_remember_all_that_stuff_i_just_blew_50_of/).
-- A June 2026 extension write-up reported that a naive tokenizer visibly froze on a 4 MB paste. PromptFit moves live counting to a Web Worker and treats large-paste responsiveness as core behavior: [implementation discussion](https://www.reddit.com/r/ClaudeCode/comments/1ujhl85/i_kept_losing_track_of_how_close_i_was_to_hitting/).
+- A June 2026 extension write-up reported that a naive tokenizer visibly froze on a 4 MB paste. PasteBudget moves live counting to a Web Worker and treats large-paste responsiveness as core behavior: [implementation discussion](https://www.reddit.com/r/ClaudeCode/comments/1ujhl85/i_kept_losing_track_of_how_close_i_was_to_hitting/).
 - Current providers advertise context windows from 200K to more than 1M tokens, while output caps are smaller and product-plan limits may differ. That makes “does it fit?” a budgeting question, not just a word count: [OpenAI models](https://platform.openai.com/docs/models), [Claude models](https://platform.claude.com/docs/en/models/overview), [Gemini 3.7 Flash](https://ai.google.dev/gemini-api/docs/latest-model), [Grok 4.20](https://docs.x.ai/developers/models/grok-4.20).
-- Competing counters validate the category, but many stop at a raw count. PromptFit's wedge is the complete pre-paste decision: input + files + existing context + answer reserve, followed by a local fix when the material does not fit.
+- Competing counters validate the category, but many stop at a raw count. PasteBudget's wedge is the complete pre-paste decision: input + files + existing context + answer reserve, followed by a local fix when the material does not fit.
 
 ## Ten viable ideas
 
@@ -16,7 +16,7 @@ Scores are 1–5. For Competition, 5 means unusually open space and 1 means crow
 
 | Idea | Severity | Audience | Distribution | Competition | Build tonight | Repeat | Share | Later revenue | Total |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| PromptFit — context budget + safe chunker | 4 | 5 | 5 | 2 | 5 | 5 | 3 | 4 | **33** |
+| PasteBudget — context budget + safe chunker | 4 | 5 | 5 | 2 | 5 | 5 | 3 | 4 | **33** |
 | Restaurant tip-pool calculator with saved roles | 4 | 3 | 4 | 3 | 5 | 5 | 4 | 4 | 32 |
 | Permanent local screenshot redactor | 4 | 5 | 5 | 2 | 4 | 4 | 4 | 3 | 31 |
 | Cross-platform social crop previewer | 3 | 5 | 5 | 1 | 4 | 4 | 4 | 4 | 30 |
@@ -37,7 +37,7 @@ Several apparently attractive categories were deprioritized after live competiti
 
 **Existing workaround:** Guess from word count, paste into a basic token counter, search model tables in another tab, then manually cut the text into arbitrary pieces.
 
-**Product:** PromptFit turns all of that into one pre-paste step: measure locally, choose a sourced limit, reserve output and existing context, get a verdict, then create labeled chunks at readable boundaries.
+**Product:** PasteBudget turns all of that into one pre-paste step: measure locally, choose a sourced limit, reserve output and existing context, get a verdict, then create labeled chunks at readable boundaries.
 
 **Why now:** AI usage is broad, long-context claims keep increasing, and current user discussions show that visibility and control have not kept pace.
 
@@ -84,7 +84,7 @@ Explicitly excluded:
 
 ## Five launchable content pieces
 
-1. **“Your 1M-token model does not give your prompt 1M tokens.”** A diagram showing response reserve, prior chat, tools, and new input, ending with a live PromptFit example.
+1. **“Your 1M-token model does not give your prompt 1M tokens.”** A diagram showing response reserve, prior chat, tools, and new input, ending with a live PasteBudget example.
 2. **“I tested a 4 MB paste without freezing the UI.”** A short engineering post about moving tokenization into a browser worker, with a reproducible sample.
 3. **“1,000 words is not a fixed number of tokens.”** Compare prose, code, emoji, and multilingual text, then link to the counter.
 4. **“How to split a document without cutting every N characters.”** Show paragraph-first boundaries, overlap, and ordered labels.
@@ -99,4 +99,3 @@ Explicitly excluded:
 ## Starter decision
 
 The project uses the official current `create-next-app` App Router template, TypeScript, Tailwind CSS, and the maintained shadcn CLI with Radix primitives. The older `shadcn-ui/next-template` repository is archived and explicitly deprecated in favor of the CLI, so it was not used: [shadcn Next.js installation](https://ui.shadcn.com/docs/installation/next), [archived template](https://github.com/shadcn-ui/next-template), [Next.js App Router documentation](https://nextjs.org/docs/app).
-

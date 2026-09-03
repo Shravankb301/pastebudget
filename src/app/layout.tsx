@@ -26,12 +26,12 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "PromptFit — AI Token Counter & Context Window Calculator",
-    template: "%s · PromptFit",
+    default: "PasteBudget — AI Token Counter & Context Window Calculator",
+    template: "%s · PasteBudget",
   },
   description:
     "Count prompt tokens, check text against current AI context limits, reserve room for the answer, and split long text into safe chunks. Private and browser-only.",
-  applicationName: "PromptFit",
+  applicationName: "PasteBudget",
   keywords: [
     "AI token counter",
     "context window calculator",
@@ -40,8 +40,8 @@ export const metadata: Metadata = {
     "Claude token counter",
     "LLM context window",
   ],
-  authors: [{ name: "PromptFit" }],
-  creator: "PromptFit",
+  authors: [{ name: "PasteBudget" }],
+  creator: "PasteBudget",
   category: "technology",
   alternates: { canonical: "/" },
   icons: {
@@ -49,17 +49,17 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.webmanifest",
   openGraph: {
-    title: "PromptFit — Know what fits before you paste",
+    title: "PasteBudget — Know what fits before you paste",
     description:
       "A private token counter and context-window calculator with safe, local text splitting.",
     type: "website",
     url: "/",
-    siteName: "PromptFit",
+    siteName: "PasteBudget",
     images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "PromptFit — Know what fits before you paste",
+    title: "PasteBudget — Know what fits before you paste",
     description:
       "Count prompt tokens, keep room for the answer, and split long text locally.",
     images: ["/opengraph-image"],

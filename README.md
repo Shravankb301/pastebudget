@@ -1,6 +1,6 @@
-# PromptFit
+# PasteBudget
 
-PromptFit is a private token counter and context-window calculator. Paste a prompt, add text-based files, choose a current API model or custom limit, reserve room for the answer, and create paste-ready chunks when the material is too large.
+PasteBudget is a private token counter and context-window calculator. Paste a prompt, add text-based files, choose a current API model or custom limit, reserve room for the answer, and create paste-ready chunks when the material is too large.
 
 Everything sensitive runs in the browser. There is no account, database, prompt upload, or AI API call.
 

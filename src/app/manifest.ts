@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "PromptFit",
-    short_name: "PromptFit",
+    name: "PasteBudget",
+    short_name: "PasteBudget",
     description: "Private token counter and context-window calculator.",
     start_url: "/",
     display: "standalone",
@@ -18,4 +18,3 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
   };
 }
-

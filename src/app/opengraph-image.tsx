@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "PromptFit — Know what fits before you paste";
+export const alt = "PasteBudget — Know what fits before you paste";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -37,7 +37,7 @@ export default function OpenGraphImage() {
           >
             [ ]
           </div>
-          <div style={{ fontSize: 28, fontWeight: 700, letterSpacing: "-0.03em" }}>PromptFit</div>
+          <div style={{ fontSize: 28, fontWeight: 700, letterSpacing: "-0.03em" }}>PasteBudget</div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div style={{ fontSize: 68, lineHeight: 1.03, fontWeight: 700, letterSpacing: "-0.055em", maxWidth: 950 }}>
@@ -59,4 +59,3 @@ export default function OpenGraphImage() {
     size,
   );
 }
-
