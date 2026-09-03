@@ -27,11 +27,11 @@ const siteAsset = (path: string) => `${siteUrl.replace(/\/$/, "")}${path}`;
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "PasteBudget — AI Token Counter & Context Window Calculator",
+    default: "PasteBudget — See If Your AI Prompt Actually Fits",
     template: "%s · PasteBudget",
   },
   description:
-    "Count prompt tokens, check text against current AI context limits, reserve room for the answer, and split long text into safe chunks. Private and browser-only.",
+    "See what actually fits after prior messages and answer space, then split oversized prompts into safe, paste-ready parts. Private and browser-only.",
   applicationName: "PasteBudget",
   keywords: [
     "AI token counter",
@@ -50,9 +50,9 @@ export const metadata: Metadata = {
   },
   manifest: siteAsset("/manifest.webmanifest"),
   openGraph: {
-    title: "PasteBudget — Know what fits before you paste",
+    title: "PasteBudget — Your context window is not your paste budget",
     description:
-      "A private token counter and context-window calculator with safe, local text splitting.",
+      "See what actually fits after prior messages and answer space, then fix oversized prompts locally.",
     type: "website",
     url: siteUrl,
     siteName: "PasteBudget",
@@ -60,9 +60,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PasteBudget — Know what fits before you paste",
+    title: "PasteBudget — Your context window is not your paste budget",
     description:
-      "Count prompt tokens, keep room for the answer, and split long text locally.",
+      "See the real room left for your prompt, protect the answer, and split long text locally.",
     images: [siteAsset("/opengraph-image")],
   },
   robots: {
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f5f1",
+  themeColor: "#0d1715",
   colorScheme: "light",
 };
 

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  ArrowDown,
   ArrowRight,
   Brackets,
   CheckCircle2,
@@ -7,6 +8,7 @@ import {
   Gauge,
   LockKeyhole,
   Scissors,
+  ShieldCheck,
 } from "lucide-react";
 
 import { PromptWorkbench } from "@/components/prompt-workbench";
@@ -78,83 +80,133 @@ const guides = [
 
 export default function Home() {
   return (
-    <main>
-      <header className="sticky top-0 z-40 border-b border-stone-200/80 bg-[#f7f5f1]/95 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <main className="bg-[#f2f4ee] text-[#12201d]">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0d1715]/95 text-white backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="group flex items-center gap-2.5" aria-label="PasteBudget home">
-            <span className="flex size-8 items-center justify-center rounded-md bg-stone-950 text-white shadow-sm transition-transform group-hover:-rotate-2">
+            <span className="flex size-8 items-center justify-center rounded-lg bg-[#d9ff72] text-[#10231f] shadow-sm transition-transform group-hover:-rotate-2">
               <Brackets className="size-4" aria-hidden="true" />
             </span>
-            <span className="text-base font-semibold tracking-tight">PasteBudget</span>
+            <span className="text-base font-semibold tracking-[-0.02em]">PasteBudget</span>
           </Link>
           <nav className="flex items-center gap-1" aria-label="Primary navigation">
-            <Button variant="ghost" size="sm" asChild className="hidden text-stone-600 sm:inline-flex">
+            <Button variant="ghost" size="sm" asChild className="hidden text-stone-300 hover:bg-white/10 hover:text-white sm:inline-flex">
               <a href="#how-it-works">How it works</a>
             </Button>
-            <Button variant="ghost" size="sm" asChild className="hidden text-stone-600 sm:inline-flex">
+            <Button variant="ghost" size="sm" asChild className="hidden text-stone-300 hover:bg-white/10 hover:text-white sm:inline-flex">
               <a href="#guides">Guides</a>
             </Button>
-            <Button size="sm" asChild className="ml-1 bg-stone-950 text-white hover:bg-stone-800">
-              <a href="#tool">Check a prompt</a>
+            <Button size="sm" asChild className="ml-1 bg-[#d9ff72] font-semibold text-[#10231f] hover:bg-[#caff45]">
+              <a href="#tool">Try it now</a>
             </Button>
           </nav>
         </div>
       </header>
 
-      <section className="border-b border-stone-200 bg-[#f7f5f1]">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end lg:px-8 lg:py-24">
-          <div>
-            <Badge variant="outline" className="mb-5 border-stone-300 bg-white/60 px-2.5 py-1 text-stone-700">
-              <LockKeyhole className="mr-1 size-3" />
-              Private · browser-only · free
+      <section className="relative overflow-hidden bg-[#0d1715] pb-16 text-white sm:pb-20">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-20"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)",
+            backgroundSize: "44px 44px",
+            maskImage: "linear-gradient(to bottom, black, transparent 82%)",
+          }}
+        />
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,1fr)_430px] lg:items-center lg:px-8">
+          <div className="max-w-2xl">
+            <Badge variant="outline" className="mb-5 border-white/15 bg-white/5 px-3 py-1 text-stone-200">
+              <LockKeyhole className="mr-1 size-3 text-[#d9ff72]" />
+              Private in-browser context calculator
             </Badge>
-            <h1 className="max-w-4xl text-balance text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-stone-950 sm:text-6xl lg:text-7xl">
-              Know what fits before you paste.
+            <h1 className="text-balance text-4xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-6xl">
+              Your context window is not your paste budget.
             </h1>
-            <p className="mt-6 max-w-2xl text-pretty text-base leading-7 text-stone-600 sm:text-lg sm:leading-8">
-              Count a prompt and its files against real model limits, leave honest room for the answer, and split oversized material into clean parts—without uploading a word.
+            <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-stone-300 sm:text-lg">
+              See what actually fits after prior messages and answer space. If it’s too large, turn it into safe, paste-ready parts in one click.
             </p>
+            <div className="mt-6 flex flex-wrap gap-2 text-xs text-stone-300">
+              {["Real API limits", "Local file reading", "No prompt upload"].map((item) => (
+                <span key={item} className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5">
+                  <CheckCircle2 className="size-3.5 text-[#d9ff72]" />
+                  {item}
+                </span>
+              ))}
+            </div>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" asChild className="bg-indigo-700 text-white shadow-sm hover:bg-indigo-600">
+              <Button size="lg" asChild className="bg-[#d9ff72] font-semibold text-[#10231f] shadow-sm hover:bg-[#caff45]">
                 <a href="#tool">
-                  Measure my prompt
-                  <ArrowRight className="size-4" />
+                  Check my real budget
+                  <ArrowDown className="size-4" />
                 </a>
               </Button>
-              <Button size="lg" variant="outline" asChild className="border-stone-300 bg-white/50">
-                <a href="#how-it-works">See the method</a>
+              <Button size="lg" variant="ghost" asChild className="text-stone-200 hover:bg-white/10 hover:text-white">
+                <a href="#tool">Use the demo below</a>
               </Button>
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-stone-300 bg-stone-300 shadow-[0_16px_50px_rgba(28,25,23,0.08)]">
-            <div className="col-span-3 bg-stone-950 px-5 py-4 text-white">
-              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-stone-400">What PasteBudget counts</p>
-              <p className="mt-2 text-sm leading-6 text-stone-200">
-                New input + attached text + existing chat + response reserve
-              </p>
-            </div>
-            {[
-              ["Live", "token meter"],
-              ["6", "API presets"],
-              ["0", "uploads"],
-            ].map(([value, label]) => (
-              <div key={label} className="bg-white p-4">
-                <p className="font-mono text-xl font-semibold tracking-tight text-stone-950">{value}</p>
-                <p className="mt-1 text-[0.68rem] uppercase tracking-wide text-stone-500">{label}</p>
+          <div className="overflow-hidden rounded-2xl border border-white/15 bg-[#14221f] shadow-[0_30px_90px_rgba(0,0,0,0.32)]">
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
+              <div>
+                <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-[#a8cbbf]">
+                  The 200K context trap
+                </p>
+                <p className="mt-1 text-sm font-medium text-white">Claude Haiku 4.5</p>
               </div>
-            ))}
+              <span className="rounded-full bg-[#ffded7] px-2.5 py-1 text-xs font-semibold text-[#832f24]">
+                Won’t fit
+              </span>
+            </div>
+            <div className="space-y-4 p-5">
+              <div className="space-y-2.5 text-sm">
+                {[
+                  ["Published context window", "200,000"],
+                  ["Already used by the chat", "−191,850"],
+                  ["Protected for the answer", "−8,000"],
+                ].map(([label, value]) => (
+                  <div key={label} className="flex items-center justify-between gap-4 text-stone-300">
+                    <span>{label}</span>
+                    <span className="font-mono tabular-nums text-white">{value}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="border-t border-white/10 pt-4">
+                <div className="flex items-end justify-between gap-4">
+                  <div>
+                    <p className="text-xs text-stone-400">Actual room for new material</p>
+                    <p className="mt-1 font-mono text-3xl font-semibold text-[#d9ff72]">150</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs text-stone-400">Example needs</p>
+                    <p className="mt-1 font-mono text-xl font-semibold text-[#ff9b86]">≈161</p>
+                  </div>
+                </div>
+                <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
+                  <div className="h-full w-full rounded-full bg-[#ff8068]" />
+                </div>
+              </div>
+              <div className="flex items-start gap-3 rounded-xl border border-[#d9ff72]/20 bg-[#d9ff72]/10 p-3">
+                <ShieldCheck className="mt-0.5 size-4 shrink-0 text-[#d9ff72]" />
+                <div>
+                  <p className="text-sm font-semibold text-white">PasteBudget catches the 11-token overflow.</p>
+                  <p className="mt-1 text-xs leading-5 text-stone-300">Then it makes 2 safe parts without uploading the text.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+      <div className="relative z-10 mx-auto -mt-8 max-w-6xl px-4 pb-12 sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
+        <div className="rounded-3xl border border-stone-300/80 bg-[#f8f9f5] p-4 shadow-[0_30px_90px_rgba(20,32,30,0.12)] sm:p-6 lg:p-8">
         <PromptWorkbench />
+        </div>
 
         <section id="how-it-works" className="scroll-mt-24 py-16 sm:py-24" aria-labelledby="method-heading">
           <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
             <div>
-              <p className="mb-3 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-700">
+              <p className="mb-3 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#0b6b5f]">
                 The method
               </p>
               <h2 id="method-heading" className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -188,7 +240,7 @@ export default function Home() {
                 <Card key={item.title} className="border-stone-300/80 bg-white shadow-none">
                   <CardHeader>
                     <div className="mb-5 flex items-center justify-between">
-                      <span className="flex size-9 items-center justify-center rounded-md bg-indigo-50 text-indigo-700">
+                      <span className="flex size-9 items-center justify-center rounded-md bg-[#e9f7f2] text-[#0b6b5f]">
                         <item.icon className="size-4" />
                       </span>
                       <span className="font-mono text-xs text-stone-400">{item.number}</span>
@@ -207,7 +259,7 @@ export default function Home() {
         <section className="border-y border-stone-300/70 py-16 sm:py-20" aria-labelledby="models-heading">
           <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="mb-3 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-700">
+              <p className="mb-3 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#0b6b5f]">
                 Current references
               </p>
               <h2 id="models-heading" className="text-3xl font-semibold tracking-tight">
@@ -243,7 +295,7 @@ export default function Home() {
                   href={model.sourceUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="justify-self-start font-medium text-indigo-700 underline-offset-4 hover:underline md:justify-self-end"
+                  className="justify-self-start font-medium text-[#0b6b5f] underline-offset-4 hover:underline md:justify-self-end"
                   aria-label={`Open official source for ${model.name}`}
                 >
                   Open
@@ -255,7 +307,7 @@ export default function Home() {
 
         <section id="guides" className="scroll-mt-24 py-16 sm:py-24" aria-labelledby="guides-heading">
           <div className="mb-8">
-            <p className="mb-3 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-700">
+            <p className="mb-3 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#0b6b5f]">
               Practical guides
             </p>
             <h2 id="guides-heading" className="text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -264,10 +316,10 @@ export default function Home() {
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {guides.map((guide) => (
-              <Link key={guide.href} href={guide.href} className="group rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2">
-                <Card className="h-full border-stone-300/80 bg-white shadow-none transition-transform group-hover:-translate-y-0.5 group-hover:border-indigo-300">
+              <Link key={guide.href} href={guide.href} className="group rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0b6b5f] focus-visible:ring-offset-2">
+                <Card className="h-full border-stone-300/80 bg-white shadow-none transition-transform group-hover:-translate-y-0.5 group-hover:border-[#77c7b5]">
                   <CardHeader>
-                    <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-indigo-700">
+                    <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[#0b6b5f]">
                       {guide.eyebrow}
                     </p>
                     <CardTitle className="pt-2 text-lg leading-6">{guide.title}</CardTitle>
@@ -287,7 +339,7 @@ export default function Home() {
 
         <section className="grid gap-10 border-t border-stone-300/70 py-16 sm:py-20 lg:grid-cols-[0.7fr_1.3fr]" aria-labelledby="faq-heading">
           <div>
-            <p className="mb-3 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-700">
+            <p className="mb-3 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#0b6b5f]">
               Good to know
             </p>
             <h2 id="faq-heading" className="text-3xl font-semibold tracking-tight">Plain answers.</h2>

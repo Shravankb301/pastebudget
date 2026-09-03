@@ -61,7 +61,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <ArrowLeft className="size-3.5" />
           All guides
         </Link>
-        <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-700">
+        <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#0b6b5f]">
           {guide.eyebrow}
         </p>
         <h1 className="mt-4 text-balance text-4xl font-semibold leading-tight tracking-[-0.035em] text-stone-950 sm:text-5xl">
@@ -82,7 +82,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
                 <ul className="mt-5 space-y-3">
                   {section.bullets.map((bullet) => (
                     <li key={bullet} className="flex items-start gap-3 text-sm leading-6 text-stone-700">
-                      <span className="mt-1 flex size-4 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-indigo-700">
+                      <span className="mt-1 flex size-4 shrink-0 items-center justify-center rounded-full bg-[#e9f7f2] text-[#0b6b5f]">
                         <Check className="size-2.5" />
                       </span>
                       {bullet}
@@ -95,7 +95,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
         </div>
 
         <aside className="mt-14 rounded-xl bg-stone-950 p-6 text-white sm:p-8">
-          <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-300">
+          <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#a8cbbf]">
             Skip the guesswork
           </p>
           <h2 className="mt-3 text-2xl font-semibold tracking-tight">Measure the actual text.</h2>

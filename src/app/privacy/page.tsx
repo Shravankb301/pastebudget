@@ -38,7 +38,7 @@ export default function PrivacyPage() {
         <div className="mt-12 space-y-10 border-t border-stone-300 pt-10 text-stone-700">
           <section>
             <h2 className="flex items-center gap-2 text-xl font-semibold text-stone-950">
-              <LockKeyhole className="size-4 text-indigo-700" />
+              <LockKeyhole className="size-4 text-[#0b6b5f]" />
               Prompts and files
             </h2>
             <p className="mt-3 leading-7">

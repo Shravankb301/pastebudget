@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import {
+  ArrowRight,
   Check,
   CheckCircle2,
   CircleAlert,
@@ -23,6 +24,7 @@ import {
   RotateCcw,
   Scissors,
   ShieldCheck,
+  Sparkles,
   X,
 } from "lucide-react";
 
@@ -65,7 +67,7 @@ import {
 } from "@/lib/models";
 import { analyzeText, buildFitReport } from "@/lib/text-analysis";
 
-const SAMPLE_PROMPT = `You are reviewing customer interviews for a small B2B product.
+const NEAR_LIMIT_SAMPLE = `You are reviewing customer interviews for a small B2B product.
 
 Goal
 Identify the three most repeated workflow problems, the language customers use to describe them, and the smallest product changes that would remove the most friction.
@@ -250,6 +252,19 @@ export function PromptWorkbench() {
   const hasContent = combinedText.length > 0;
   const fits = hasContent && remaining >= 0;
   const isClose = fits && utilization >= 80;
+  const effectiveChunkSize = Math.max(
+    64,
+    Math.min(chunkSize, availableInput || contextWindow),
+  );
+  const estimatedParts = hasContent
+    ? Math.max(
+        1,
+        Math.ceil(
+          modelTokenCount /
+            Math.max(1, effectiveChunkSize - Math.min(overlapTokens, effectiveChunkSize - 1)),
+        ),
+      )
+    : 0;
   const verdict = !hasContent
     ? "Waiting for your prompt"
     : countState.status === "counting"
@@ -257,8 +272,15 @@ export function PromptWorkbench() {
       : fits
         ? isClose
           ? "Fits, with limited headroom"
-          : "Fits comfortably"
-        : "Too large for this budget";
+          : "Safe to paste"
+        : "Won’t fit as one message";
+  const resultSummary = !hasContent
+    ? "Add your material to see the budget the model can actually use."
+    : countState.status === "counting"
+      ? "Counting locally in your browser."
+      : remaining >= 0
+        ? `${formatTokens(remaining)} remains after protecting ${formatTokens(effectiveResponseReserve)} for the answer.`
+        : `${formatTokens(Math.abs(remaining))} over budget after protecting ${formatTokens(effectiveResponseReserve)} for the answer.`;
 
   async function addFiles(fileList: FileList | File[]) {
     setFileError("");
@@ -315,16 +337,34 @@ export function PromptWorkbench() {
   }
 
   function loadSample() {
-    setDraft(SAMPLE_PROMPT);
+    setDraft(NEAR_LIMIT_SAMPLE);
     setFiles([]);
+    setModelId("claude-haiku-4-5");
+    setResponseReserve(8_000);
+    setExistingUsage(191_850);
+    setChunkSize(120);
+    setOverlapTokens(12);
     setChunks([]);
     setFileError("");
     trackEvent("sample_loaded");
+
+    if (window.matchMedia("(max-width: 1023px)").matches) {
+      window.setTimeout(() => {
+        document
+          .getElementById("paste-decision")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 80);
+    }
   }
 
   function clearAll() {
     setDraft("");
     setFiles([]);
+    setModelId(DEFAULT_MODEL_ID);
+    setResponseReserve(16_000);
+    setExistingUsage(0);
+    setChunkSize(8_000);
+    setOverlapTokens(200);
     setChunks([]);
     setFileError("");
   }
@@ -403,42 +443,51 @@ export function PromptWorkbench() {
 
   return (
     <section id="tool" aria-labelledby="tool-heading" className="scroll-mt-24">
-      <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="mb-2 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-700">
-            Context workbench
+          <p className="mb-2 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#0b6b5f]">
+            Check the whole request
           </p>
-          <h2 id="tool-heading" className="text-2xl font-semibold tracking-tight sm:text-3xl">
-            Measure the input. Keep room for the answer.
+          <h2 id="tool-heading" className="max-w-3xl text-3xl font-semibold tracking-[-0.035em] sm:text-4xl">
+            Find out if it fits. Fix it if it doesn’t.
           </h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-600 sm:text-base">
+            Paste the real prompt, account for the conversation already used, and protect enough room for a useful answer.
+          </p>
         </div>
-        <div className="flex items-center gap-2 text-xs text-stone-600">
-          <ShieldCheck className="size-4 text-emerald-700" aria-hidden="true" />
-          No upload. No prompt storage.
+        <div className="flex w-fit items-center gap-2 rounded-full border border-[#b7d9cf] bg-[#e9f7f2] px-3 py-1.5 text-xs font-medium text-[#0b5b51]">
+          <ShieldCheck className="size-4" aria-hidden="true" />
+          Your text never leaves this tab
         </div>
       </div>
 
-      <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1.12fr)_minmax(360px,0.88fr)]">
-        <Card className="overflow-hidden border-stone-300/80 bg-white shadow-[0_1px_2px_rgba(28,25,23,0.05),0_16px_40px_rgba(28,25,23,0.04)]">
-          <CardHeader className="border-b border-stone-200 pb-5">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <CardTitle className="text-base">Your material</CardTitle>
+      <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1.08fr)_minmax(380px,0.92fr)]">
+        <Card className="overflow-hidden border-stone-300/90 bg-white shadow-[0_1px_2px_rgba(20,32,30,0.06),0_24px_70px_rgba(20,32,30,0.08)]">
+          <CardHeader className="border-b border-stone-200 bg-[#fbfcf8] pb-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div className="flex items-start gap-3">
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#10231f] font-mono text-xs font-semibold text-white">
+                  1
+                </span>
+                <div>
+                  <CardTitle className="text-base">Add what you’re about to send</CardTitle>
                 <CardDescription className="mt-1">
-                  Paste a prompt, then add any text-based files it references.
+                    Prompt, instructions, document, transcript, or source code.
                 </CardDescription>
+                </div>
               </div>
-              <div className="flex shrink-0 gap-1">
+              <div className="flex w-full gap-1 sm:w-auto sm:shrink-0">
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="outline"
                   size="sm"
                   onClick={loadSample}
-                  className="text-stone-600"
+                  className="flex-1 border-[#b7d9cf] bg-[#e9f7f2] text-[#0b5b51] hover:bg-[#dff2eb] hover:text-[#084c44] sm:flex-none"
                   data-analytics="sample-loaded"
                 >
-                  <FileText className="size-3.5" />
-                  Sample
+                  <Sparkles className="size-3.5" />
+                  <span className="sm:hidden">Near-limit demo</span>
+                  <span className="hidden sm:inline">Load a near-limit example</span>
                 </Button>
                 <Button
                   type="button"
@@ -466,7 +515,7 @@ export function PromptWorkbench() {
                   setChunks([]);
                 }}
                 placeholder="Paste the prompt, document, transcript, or code you plan to send…"
-                className="min-h-80 resize-y border-stone-300 bg-stone-50/60 p-4 font-mono text-[0.82rem] leading-6 shadow-inner placeholder:font-sans placeholder:text-stone-400 focus-visible:bg-white sm:min-h-96"
+                className="min-h-72 resize-y border-stone-300 bg-stone-50/60 p-4 font-mono text-[0.82rem] leading-6 shadow-inner placeholder:font-sans placeholder:text-stone-400 focus-visible:bg-white sm:min-h-80"
                 spellCheck={false}
               />
               {countState.status === "counting" && (
@@ -482,9 +531,9 @@ export function PromptWorkbench() {
               onDragLeave={() => setDragActive(false)}
               onDragOver={(event) => event.preventDefault()}
               onDrop={handleDrop}
-              className={`flex min-h-20 cursor-pointer items-center justify-center gap-3 rounded-lg border border-dashed px-4 py-3 text-center transition-colors focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 ${
+              className={`flex min-h-20 cursor-pointer items-center justify-center gap-3 rounded-lg border border-dashed px-4 py-3 text-center transition-colors focus-within:ring-2 focus-within:ring-[#0b6b5f] focus-within:ring-offset-2 ${
                 dragActive
-                  ? "border-indigo-500 bg-indigo-50"
+                  ? "border-[#0b6b5f] bg-[#e9f7f2]"
                   : "border-stone-300 bg-stone-50 hover:border-stone-400 hover:bg-stone-100/80"
               }`}
             >
@@ -516,7 +565,7 @@ export function PromptWorkbench() {
                     className="flex items-center justify-between gap-3 rounded-md border border-stone-200 bg-white px-3 py-2 text-sm"
                   >
                     <span className="flex min-w-0 items-center gap-2">
-                      <FileText className="size-3.5 shrink-0 text-indigo-600" />
+                      <FileText className="size-3.5 shrink-0 text-[#0b6b5f]" />
                       <span className="truncate font-medium">{file.name}</span>
                       <span className="shrink-0 text-xs text-stone-400">
                         {formatBytes(file.size)}
@@ -562,13 +611,20 @@ export function PromptWorkbench() {
           </CardContent>
         </Card>
 
-        <div className="space-y-5 lg:sticky lg:top-24">
-          <Card className="border-stone-300/80 bg-white shadow-[0_1px_2px_rgba(28,25,23,0.05),0_16px_40px_rgba(28,25,23,0.04)]">
+        <div className="flex flex-col gap-5 lg:sticky lg:top-24">
+          <Card className="order-2 border-stone-300/90 bg-white shadow-[0_1px_2px_rgba(20,32,30,0.05),0_16px_40px_rgba(20,32,30,0.05)]">
             <CardHeader className="pb-4">
-              <CardTitle className="text-base">Target context</CardTitle>
-              <CardDescription>
-                API presets use documented limits. Consumer chat plans can differ.
-              </CardDescription>
+              <div className="flex items-start gap-3">
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-stone-200 font-mono text-xs font-semibold text-stone-700">
+                  2
+                </span>
+                <div>
+                  <CardTitle className="text-base">Set the real budget</CardTitle>
+                  <CardDescription className="mt-1">
+                    Model window minus answer space and prior conversation.
+                  </CardDescription>
+                </div>
+              </div>
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="space-y-2">
@@ -599,7 +655,7 @@ export function PromptWorkbench() {
                       href={selectedPreset.sourceUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="font-medium text-indigo-700 underline-offset-4 hover:underline"
+                      className="font-medium text-[#0b6b5f] underline-offset-4 hover:underline"
                     >
                       official source
                     </a>
@@ -693,22 +749,26 @@ export function PromptWorkbench() {
           </Card>
 
           <Card
-            className={`overflow-hidden border-2 bg-white shadow-[0_1px_2px_rgba(28,25,23,0.05),0_16px_40px_rgba(28,25,23,0.04)] ${
+            id="paste-decision"
+            className={`order-1 scroll-mt-20 overflow-hidden border-2 shadow-[0_1px_2px_rgba(20,32,30,0.06),0_24px_60px_rgba(20,32,30,0.1)] ${
               !hasContent
-                ? "border-stone-200"
+                ? "border-stone-300 bg-white"
                 : fits
                   ? isClose
-                    ? "border-amber-300"
-                    : "border-emerald-300"
-                  : "border-red-300"
+                    ? "border-amber-300 bg-amber-50/70"
+                    : "border-[#77c7b5] bg-[#f0fbf7]"
+                  : "border-[#ee8b79] bg-[#fff4f1]"
             }`}
             aria-live="polite"
           >
             <CardHeader className="pb-4">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="mb-1 text-xs font-medium text-stone-500">Verdict</p>
-                  <CardTitle className="text-xl tracking-tight">{verdict}</CardTitle>
+                  <p className="mb-1 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-stone-500">
+                    3 · Paste decision
+                  </p>
+                  <CardTitle className="text-2xl tracking-[-0.03em]">{verdict}</CardTitle>
+                  <p className="mt-2 max-w-md text-sm leading-6 text-stone-600">{resultSummary}</p>
                 </div>
                 <span
                   className={`flex size-10 shrink-0 items-center justify-center rounded-full ${
@@ -732,12 +792,12 @@ export function PromptWorkbench() {
               </div>
             </CardHeader>
             <CardContent className="space-y-5">
-              <div className="space-y-2">
+              <div className="space-y-2 rounded-xl border border-black/5 bg-white/70 p-4">
                 <div className="flex items-end justify-between gap-3">
-                  <span className="text-sm text-stone-600">
+                  <span className="text-sm font-medium text-stone-600">
                     {selectedPreset.tokenizer === "o200k" || isCustom ? "Tokens" : "Conservative estimate"}
                   </span>
-                  <span className="font-mono text-xl font-semibold tabular-nums tracking-tight">
+                  <span className="font-mono text-2xl font-semibold tabular-nums tracking-tight">
                     {selectedPreset.tokenizer === "estimated" && !isCustom && hasContent ? "≈" : ""}
                     {formatNumber(modelTokenCount)}
                     <span className="ml-1 text-xs font-normal text-stone-400">
@@ -769,7 +829,7 @@ export function PromptWorkbench() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-stone-200 bg-stone-200">
+              <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-stone-200 bg-stone-200">
                 <div className="bg-stone-50 p-3">
                   <p className="text-[0.68rem] uppercase tracking-wide text-stone-500">Reference count</p>
                   <p className="mt-1 font-mono text-sm font-semibold tabular-nums">{formatNumber(referenceCount)}</p>
@@ -789,7 +849,7 @@ export function PromptWorkbench() {
               </div>
 
               {selectedPreset.tokenizer === "estimated" && !isCustom && (
-                <p className="rounded-md border border-indigo-100 bg-indigo-50/70 px-3 py-2 text-xs leading-5 text-indigo-900">
+                <p className="rounded-md border border-[#b7d9cf] bg-[#e9f7f2] px-3 py-2 text-xs leading-5 text-[#0b5b51]">
                   This model does not publish a browser tokenizer. PasteBudget applies a 12% safety margin to the exact o200k reference count.
                 </p>
               )}
@@ -811,16 +871,26 @@ export function PromptWorkbench() {
             </CardContent>
           </Card>
 
-          <Card className="border-stone-300/80 bg-[#171717] text-stone-50 shadow-[0_16px_40px_rgba(28,25,23,0.12)]">
+          <Card className="order-3 border-[#183b34] bg-[#10231f] text-stone-50 shadow-[0_16px_40px_rgba(20,32,30,0.14)]">
             <CardHeader className="pb-4">
               <div className="flex items-center gap-2">
                 <span className="flex size-8 items-center justify-center rounded-md bg-white/10">
                   <Scissors className="size-4" />
                 </span>
                 <div>
-                  <CardTitle className="text-base text-white">Make paste-ready chunks</CardTitle>
+                  <CardTitle className="text-base text-white">
+                    {!hasContent
+                      ? "Make paste-ready parts"
+                      : fits
+                        ? "Split into reusable parts"
+                        : "Fix the overflow"}
+                  </CardTitle>
                   <CardDescription className="mt-0.5 text-stone-400">
-                    Split at readable boundaries with optional overlap.
+                    {!hasContent
+                      ? "When material is too large, split it locally at readable boundaries."
+                      : fits
+                        ? "Create smaller, reusable messages at readable boundaries."
+                        : `Turn this into about ${estimatedParts} safe parts, with continuity preserved.`}
                   </CardDescription>
                 </div>
               </div>
@@ -873,7 +943,7 @@ export function PromptWorkbench() {
                   countState.status === "counting" ||
                   availableInput < 64
                 }
-                className="w-full bg-white text-stone-950 hover:bg-stone-200"
+                className="w-full bg-[#d9ff72] font-semibold text-[#10231f] hover:bg-[#caff45]"
                 data-analytics="chunks-created"
               >
                 {isChunking ? (
@@ -881,7 +951,12 @@ export function PromptWorkbench() {
                 ) : (
                   <Scissors className="size-4" />
                 )}
-                {isChunking ? "Splitting locally…" : "Create chunks"}
+                {isChunking
+                  ? "Splitting locally…"
+                  : hasContent
+                    ? `Make ${estimatedParts} paste-ready ${estimatedParts === 1 ? "part" : "parts"}`
+                    : "Create paste-ready parts"}
+                {!isChunking && <ArrowRight className="size-4" />}
               </Button>
               <p className="flex items-start gap-2 text-xs leading-5 text-stone-400">
                 <LockKeyhole className="mt-0.5 size-3.5 shrink-0" />

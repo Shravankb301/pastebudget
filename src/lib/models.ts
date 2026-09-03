@@ -19,6 +19,15 @@ export const MODEL_PRESETS: ModelPreset[] = [
     tokenizer: "o200k",
   },
   {
+    id: "claude-fable-5-1",
+    name: "Claude Fable 5.1",
+    provider: "Claude API",
+    contextWindow: 1_000_000,
+    maxOutput: 128_000,
+    sourceUrl: "https://platform.claude.com/docs/en/models/overview",
+    tokenizer: "estimated",
+  },
+  {
     id: "claude-opus-5",
     name: "Claude Opus 5",
     provider: "Claude API",
