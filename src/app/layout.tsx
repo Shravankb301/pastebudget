@@ -22,6 +22,7 @@ const siteUrl =
   (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : "http://localhost:3000");
+const siteAsset = (path: string) => `${siteUrl.replace(/\/$/, "")}${path}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -43,26 +44,26 @@ export const metadata: Metadata = {
   authors: [{ name: "PasteBudget" }],
   creator: "PasteBudget",
   category: "technology",
-  alternates: { canonical: "/" },
+  alternates: { canonical: siteUrl },
   icons: {
-    icon: "/icon.svg",
+    icon: siteAsset("/icon.svg"),
   },
-  manifest: "/manifest.webmanifest",
+  manifest: siteAsset("/manifest.webmanifest"),
   openGraph: {
     title: "PasteBudget — Know what fits before you paste",
     description:
       "A private token counter and context-window calculator with safe, local text splitting.",
     type: "website",
-    url: "/",
+    url: siteUrl,
     siteName: "PasteBudget",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+    images: [{ url: siteAsset("/opengraph-image"), width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "PasteBudget — Know what fits before you paste",
     description:
       "Count prompt tokens, keep room for the answer, and split long text locally.",
-    images: ["/opengraph-image"],
+    images: [siteAsset("/opengraph-image")],
   },
   robots: {
     index: true,
