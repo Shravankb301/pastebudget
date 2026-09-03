@@ -4,11 +4,12 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "PasteBudget",
     short_name: "PasteBudget",
-    description: "Private token counter and context-window calculator.",
+    description:
+      "See your real AI paste budget and split oversized prompts locally.",
     start_url: "/",
     display: "standalone",
-    background_color: "#f7f5f1",
-    theme_color: "#f7f5f1",
+    background_color: "#f2f4ee",
+    theme_color: "#0d1715",
     icons: [
       {
         src: "/icon.svg",

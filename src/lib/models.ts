@@ -55,12 +55,23 @@ export const MODEL_PRESETS: ModelPreset[] = [
     tokenizer: "estimated",
   },
   {
+    id: "gemini-3-8-flash",
+    name: "Gemini 3.8 Flash",
+    provider: "Gemini API",
+    contextWindow: 1_048_576,
+    maxOutput: 65_536,
+    sourceUrl:
+      "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+    tokenizer: "estimated",
+  },
+  {
     id: "gemini-3-7-flash",
     name: "Gemini 3.7 Flash",
     provider: "Gemini API",
-    contextWindow: 1_000_000,
-    maxOutput: 64_000,
-    sourceUrl: "https://ai.google.dev/gemini-api/docs/latest-model",
+    contextWindow: 1_048_576,
+    maxOutput: 65_536,
+    sourceUrl:
+      "https://ai.google.dev/gemini-api/docs/models/gemini-3.7-flash",
     tokenizer: "estimated",
   },
   {
